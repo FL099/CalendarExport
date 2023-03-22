@@ -1,0 +1,4 @@
+Datum Beginn;Uhrzeit;Datum Ende;Uhrzeit;Titel;Zusatztext;Ort;Wiederholung
+04.03.2023;10:00;;12:00;Testevent;Bla;Wien;
+05.03.2023;10:00;;12:00;Test2event;Bla;Prag;
+06.03.2023;10:00;;12:00;Test3event;Bla;Berlin;
