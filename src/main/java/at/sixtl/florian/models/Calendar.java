@@ -17,7 +17,7 @@ public class Calendar {
     String location = "";
     String rule = "";
     String description = "";
-    protected int sequenceNr = 1;   //wichtig bei mehreren in einem File
+    protected int sequenceNr = 1;   //wichtig bei mehreren Versionen(Damits beim im Kalender speichern nicht doppelt ist)
 
     public Calendar(String startDate,
                     String startTime,
@@ -116,6 +116,14 @@ public class Calendar {
         this.description = description;
     }
 
+    public String getCategory() {
+        return cat;
+    }
+
+    public void setCategory(String category) {
+        this.cat = category;
+    }
+
     public String getMethod() {
         return method;
     }
@@ -141,7 +149,7 @@ public class Calendar {
     }
 
     public static String generateIcsFromStubs(String method, String concatedStubs, ZoneId zone) {
-        String inhalt = String
+        return String
                 .format("""
                         BEGIN:VCALENDAR
                         VERSION:2.0
@@ -150,18 +158,6 @@ public class Calendar {
                         END:VCALENDAR""",
                         method,
                         concatedStubs);
-        /*String inhalt = String
-                .format("""
-                        BEGIN:VCALENDAR
-                        VERSION:2.0
-                        METHOD:%s
-                        X-WR-TIMEZONE:%s
-                        %s
-                        END:VCALENDAR""",
-                        method,
-                        zone,
-                        concatedStubs);*/
-        return inhalt;
     }
 
     public String calendarToIcsStub() {
@@ -190,7 +186,7 @@ public class Calendar {
                             this.curDateTime.getHour(), this.curDateTime.getMinute(), this.curDateTime.getSecond(),
                             this.startDateTime.getYear(), this.startDateTime.getMonthValue(), this.startDateTime.getDayOfMonth(),
                             this.endDateTime.getYear(), this.endDateTime.getMonthValue(), this.endDateTime.getDayOfMonth()+1,
-                            this.curDateTime.getSecond() * this.startDateTime.getDayOfMonth() + this.endDateTime.getDayOfMonth() * 1293 + this.startDateTime.getHour(),
+                            this.curDateTime.getSecond() * this.startDateTime.getDayOfMonth() + this.endDateTime.getDayOfMonth() * 1293,
                             this.startDateTime.getMonthValue(),
                             this.organization,
                             this.description,
@@ -252,5 +248,29 @@ public class Calendar {
             }
         }
         return "";
+    }
+
+    @Override
+    public String toString() {
+        return "{\n" +
+                " startDateTime: " +
+                startDateTime.getDayOfMonth() + "." +
+                startDateTime.getMonthValue() + "." +
+                startDateTime.getYear() + " " +
+                startDateTime.getHour() + ":" +
+                startDateTime.getMinute() +
+                ",\n endDateTime: " +
+                endDateTime.getDayOfMonth() + "." +
+                endDateTime.getMonthValue() + "." +
+                endDateTime.getYear() + " " +
+                endDateTime.getHour() + ":" +
+                endDateTime.getMinute() +
+                ",\n curDateTime: " + curDateTime +
+                ",\n organizer: '" + organizer + '\'' +
+                ",\n organization: '" + organization + '\'' +
+                ",\n summary: '" + summary + '\'' +
+                ",\n location: '" + location + '\'' +
+                ",\n description: '" + description + '\'' +
+                "\n}";
     }
 }

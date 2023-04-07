@@ -5,14 +5,41 @@ public class Messages {
     public final static String NOT_SUPPORTED_FORMAT = "Nicht unterstütztes Format";
     public final static String PROGRAM_FINISHED = "\nProgramm beendet";
     public final static String FILE_NOT_FOUND = "Die angegebene Datei konnte nicht gefunden werden.";
-    public final static String FILE_READING_ERROR = "Beim lesen der angegebenen Datei ist ein Fehler aufgetreten.";
     public final static String FILE_READING_FALLBACK = "Verwende Standard-Eigenschaften";
     public final static String MISSING_VALUE_PH = "########";
     public final static String READ_HAEDER_ROW = "Kopfzeile gelesen und ignoriert";
     public final static String READ_ROW = " - In dieser Zeile sind %s Werte";
     public final static String READ_FILE = "Dokument erfolgreich eingelesen\n------";
+    public final static String EVENTS_READ = " Events eingelesen";
     public final static String PROGRAM_SUCCESS = "Alle Kalenderdateien erfolgreich exportiert";
     public final static String PROGRAM_FAIL = "Beim Export sind Fehler aufgetreten";
-
-
+    public final static String CMD_ARGS_NOT_CORRECT = "Filename oder Argumente nicht korrekt";
+    public final static String CMD_INSTEAD_OF_FILE = "Lese Command line Input statt File...";
+    public final static String CMD_NOT_ENOUGH_ARGS = "Nicht genug Argumente angegeben, versuche es mit Standardwerten...";
+    public final static String SUCCESS_READING_EVENT = "Event erfolgreich hinzugefügt";
+    public final static String ERROR_READING_GENERAL = "Beim lesen der Files ist ein Fehler aufgetreten: \n";
+    public final static String ERROR_CREATING_FILE = "Bei der Erstellung des Kalenderfiles ist ein Fehler aufgetreten: \n";
+    public final static String ERROR_WRITING_FILE = "Error while writing Calendar File \"";
+    public final static String ERROR_READING_FILE = "Beim lesen der angegebenen Datei ist ein Fehler aufgetreten.";
+    public final static String ERROR_READING_CMD = "Beim lesen der Eingabe ist ein Fehler aufgetreten";
+    public final static String ERROR_READING_TO_CALENDAR = "Beim einlesen des Kalenderfiles ist ein Fehler aufgetreten: \n";
+    public final static String ERROR_PRINTING_CALENDAR = "Bei der Ausgabe des Kalenders ist ein Fehler aufgetreten.";
+    public final static String READING_CMD_NEW_EVENT = "Du erstellst einen neuen Kalendereintrag";
+    public final static String READING_CMD_REPEAT_EVENT = "Bitte Event erneut eingeben";
+    public final static String READING_CMD_EVENT_NAME = "Wie soll der Eintrag heißen?\t";
+    public final static String READING_CMD_EVENT_TYPE = "Willst du den Termin mit \n * Datum-Startzeit-Dauer(1)\n * Startdatum-Startzeit-Enddatum-Endzeit(2) oder\n * Ganztägiger Termin(Datum)(3) \nangeben?";
+    public final static String READING_CMD_EVENT_STARTDATE = "An welchem Tag beginnt das Event?(DD.MM.YYYY)";
+    public final static String READING_CMD_EVENT_DATE = "An welchem Tag ist das Event?(DD.MM.YYYY)";
+    public final static String READING_CMD_EVENT_DURATION = "Wie lange dauert das Event?";
+    public final static String READING_CMD_EVENT_STARTTIME = "Um welche Uhrzeit beginnt das Event?(HH:MM)";
+    public final static String READING_CMD_EVENT_ENDDATE = "An welchem Tag endet das Event?(DD.MM.YYYY)";
+    public final static String READING_CMD_EVENT_ENDTIME = "Um welche Uhrzeit endet das Event?(HH:MM)";
+    public final static String READING_CMD_EVENT_DESCRIPTION = "Welchen Text soll das Event enthalten?";
+    public final static String READING_CMD_EVENT_ADDITIONAL = "Wie willst du weiter machen?\n * Nächstes Event erstellen(0)\n * File(s) direkt ausgeben(1)\n * Ort hinzufügen(2)\n * Kategorie hinzufügen(3)\n * Wiederholungen hinzufügen(4)\n * Aktuelles Event neu eingeben(8)\n * Übersicht der Events(9)\n";
+    public final static String READING_CMD_EVENT_LOCATION = "Wo findet das Event statt?";
+    public final static String READING_CMD_EVENT_CATEGORY = "In welche Kategorie gehört das Event?";
+    public final static String READING_CMD_EVENT_RULES = "Wiederholt sich das Event?(Optionen noch nicht implementiert)";
+    public final static String READING_CMD_EVENT_CONFIRM = "Sicher?(y/n)";
+    public final static String READING_CMD_EVENT_ENTER_AGAIN = "OK, bitte das Event erneut eingeben:";
+    public final static String PRINTING_CMD_EVENTS = "Alle momentan eingelesenen Events: ";
 }

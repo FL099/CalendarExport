@@ -14,24 +14,49 @@ public class GeneralProperties {
     private String dTFormat = "DD.MM.YYYY";
     private String organizer = "someone@example.com";
     private String organization = "exampleOrg";
+    private String inputType = "file";
+    public String propsFile = "config/AuthorData.csv";
+    public String method = "PUBLISH";
 
     /* TODO:
         outputfile
         weitere output-Formate
      */
 
+    /**
+     * 
+     * @param outputFormat Format to output the calendar events in (e.g. ics,ical etc)
+     */
     public GeneralProperties(String outputFormat) {
         this(outputFormat, "standard.csv");
     }
 
+    /**
+     * 
+     * @param outputFormat Format to output the calendar events in (e.g. ics,ical etc)
+     * @param inputFile Name of the inputFile
+     */
     public GeneralProperties(String outputFormat, String inputFile) {
         this(outputFormat, inputFile, false);
     }
 
+    /**
+     * 
+     * @param outputFormat Format to output the calendar events in (e.g. ics,ical etc)
+     * @param inputFile Name of the inputFile
+     * @param singleFile if the output should be written per event or in a single file
+     */
     public GeneralProperties(String outputFormat, String inputFile, boolean singleFile) {
         this(outputFormat, inputFile, singleFile, 13);
     }
 
+    /**
+     * 
+     * @param outputFormat Format to output the calendar events in (e.g. ics,ical etc)
+     * @param inputFile Name of the inputFile
+     * @param singleFile if the output should be written per event or in a single file
+     * @param numberOfFields how many fields there are in the input file
+     */
     public GeneralProperties(String outputFormat, String inputFile, boolean singleFile, int numberOfFields) {
         setOutputFormat(outputFormat.toLowerCase());
         setInputFile(inputFile);
@@ -39,26 +64,37 @@ public class GeneralProperties {
         setNumberOfFields(numberOfFields);
     }
 
+    public String getInputType() {
+        return this.inputType;
+    }
+
+    public void setInputType(String inputType) {
+        this.inputType = inputType;
+    }
+
     public String getOutputFormat() {
         return outputFormat;
     }
 
-    public void setOutputFormat(String outputFormat) {
+    public void setOutputFormat(String outputFormat)
+    {
+        outputFormat = outputFormat.strip();
         if (outputFormat.equals("ical") || outputFormat.equals("ics") || outputFormat.equals("apple")) {
-            this.outputFormat = "ics";
+            outputFormat = "ics";
         } else if (outputFormat.equals("csv")
                 || outputFormat.equals("outlook")
                 || outputFormat.equals("outlookcsv")
                 || outputFormat.equals("ocsv")
                 || outputFormat.equals("html")) {
-            System.out.printf("Momentan ist nur ics/ical möglich!\n");
-            Scanner myObj = new Scanner(System.in);  // Create a Scanner object
-            System.out.println("Mit ics fortfahren? (y/n)");
-            String response = myObj.nextLine();  // Read user input
-            if (response.equalsIgnoreCase("y")) {
-                this.outputFormat = "ics";
-            } else {
-                throw new IllegalArgumentException(Messages.NOT_SUPPORTED_FORMAT);
+            System.out.println("Momentan ist nur ics/ical möglich!\n");
+            try (Scanner myObj = new Scanner(System.in)) {
+                System.out.println("Mit ics fortfahren? (y/n)");
+                String response = myObj.nextLine();  // Read user input
+                if (response.equalsIgnoreCase("y")) {
+                    outputFormat = "ics";
+                } else {
+                    throw new IllegalArgumentException(Messages.NOT_SUPPORTED_FORMAT);
+                }
             }
         }
         this.outputFormat = outputFormat;
@@ -76,7 +112,13 @@ public class GeneralProperties {
     }
 
     public void setInputFile(String inputFile) {
-        this.inputFile = new File(inputFile.trim()); //TODO: leerzeichen im Namen usw entfernen
+        inputFile = inputFile.trim();
+        if (!inputFile.equals("cmd")) {
+            this.inputFile = new File(inputFile.trim()); //TODO: leerzeichen im Namen usw entfernen
+        } else {
+            System.out.println(Messages.CMD_INSTEAD_OF_FILE);
+        }
+
     }
 
     public boolean isSingleFile() {
@@ -116,7 +158,8 @@ public class GeneralProperties {
     }
 
     public void setOrganizer(String organizer) {
-        this.organizer = organizer;
+        if (organizer != null)
+            this.organizer = organizer;
     }
 
     public String getOrganization() {
@@ -124,6 +167,23 @@ public class GeneralProperties {
     }
 
     public void setOrganization(String organization) {
-        this.organization = organization;
+        if (organization != null)
+            this.organization = organization;
+    }
+
+    public String getPropsFile() {
+        return propsFile;
+    }
+
+    public void setPropsFile(String propsFile) {
+        this.propsFile = propsFile;
+    }
+
+    public String getMethod() {
+        return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
     }
 }
