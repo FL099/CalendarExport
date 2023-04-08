@@ -17,6 +17,7 @@ public class Calendar {
     String location = "";
     String rule = "";
     String description = "";
+    String reminder = "";
     protected int sequenceNr = 1;   //wichtig bei mehreren Versionen(Damits beim im Kalender speichern nicht doppelt ist)
 
     public Calendar(String startDate,
@@ -68,10 +69,6 @@ public class Calendar {
         this.startDateTime = startDateTime;
     }
 
-    public ZonedDateTime getEndDateTime() {
-        return endDateTime;
-    }
-
     public void setEndDateTime(ZonedDateTime endDateTime) {
         this.endDateTime = endDateTime;
     }
@@ -92,32 +89,16 @@ public class Calendar {
         this.summary = summary;
     }
 
-    public String getLocation() {
-        return location;
-    }
-
     public void setLocation(String location) {
         this.location = location;
-    }
-
-    public String getRule() {
-        return rule;
     }
 
     public void setRule(String rule) {
         this.rule = rule;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getCategory() {
-        return cat;
     }
 
     public void setCategory(String category) {
@@ -128,20 +109,16 @@ public class Calendar {
         return method;
     }
 
-    public String getOrganizer() {
-        return organizer;
-    }
-
     public void setOrganizer(String organizer) {
         this.organizer = organizer;
     }
 
-    public String getOrganization() {
-        return organization;
-    }
-
     public void setOrganization(String organization) {
         this.organization = organization;
+    }
+
+    public void setReminder(String reminder) {
+        this.reminder = reminder;
     }
 
     public String singleCalendarToIcs() {
@@ -171,15 +148,14 @@ public class Calendar {
                         BEGIN:VEVENT
                         TZID:Europe/Vienna
                         DTSTAMP:%04d%02d%02dT%02d%02d%02d
-                        DTSTART:%04d%02d%02d
-                        DTEND:%04d%02d%02d
+                        DTSTART:%04d%02d%02dT%02d%02d%02d
+                        DTEND:%04d%02d%02dT%02d%02d%02d
                         UID:%d%d@%s
                         DESCRIPTION:%s
                         ORGANIZER:mailto:%s
-                        SUMMARY:%s
-                        %s
+                        SUMMARY:%s%s
                         SEQUENCE:%d
-                        STATUS:CONFIRMED%s%s
+                        STATUS:CONFIRMED%s%s%s
                         END:VEVENT
                         """,
                             this.curDateTime.getYear(), this.curDateTime.getMonthValue(), this.curDateTime.getDayOfMonth(),
@@ -195,7 +171,8 @@ public class Calendar {
                             getIfNotEmpty(this.location, "LOCATION:"),
                             this.sequenceNr,
                             getIfNotEmpty(this.cat, "CATEGORIES:"),
-                            getRuleForIcs(this.rule));
+                            getRuleForIcs(this.rule),
+                            addReminderIfSet(this.reminder));
         } else
             inhalt = String
                 .format("""
@@ -207,10 +184,9 @@ public class Calendar {
                         UID:%d%d@%s
                         DESCRIPTION:%s
                         ORGANIZER:mailto:%s
-                        SUMMARY:%s
-                        %s
+                        SUMMARY:%s%s
                         SEQUENCE:%d
-                        STATUS:CONFIRMED%s%s
+                        STATUS:CONFIRMED%s%s%s
                         END:VEVENT
                         """,
                         this.curDateTime.getYear(), this.curDateTime.getMonthValue(), this.curDateTime.getDayOfMonth(),
@@ -228,13 +204,26 @@ public class Calendar {
                         getIfNotEmpty(this.location, "LOCATION:"),
                         this.sequenceNr,
                         getIfNotEmpty(this.cat, "CATEGORIES:"),
-                        getRuleForIcs(this.rule));
+                        getRuleForIcs(this.rule),
+                        addReminderIfSet(this.reminder));
         return inhalt;
+    }
+
+    private String addReminderIfSet(String reminder) {
+        if (reminder.length() > 0) {
+            return """
+                    \nBEGIN:VALARM
+                    TRIGGER:-PT"""+ reminder + """
+                    \nACTION:DISPLAY
+                    DESCRIPTION:Reminder
+                    END:VALARM""";
+        }
+        return "";
     }
 
     private String getIfNotEmpty(String value, String text) {
         if (value.length() > 0) {
-            return text + value;
+            return "\n" + text + value;
         }
         return "";
     }

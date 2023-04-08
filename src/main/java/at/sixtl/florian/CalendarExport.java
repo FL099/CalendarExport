@@ -77,27 +77,26 @@ public class CalendarExport {
         }
 
         switch (inputs.size()) {
-            case 0 -> properties = new GeneralProperties("ics");
-            case 1 -> properties = new GeneralProperties(inputs.get(0));               // nur outputformat
-            case 2 -> properties = new GeneralProperties(inputs.get(0), inputs.get(1));   // outputformat + inputFile
-            case 3 -> properties = new GeneralProperties(inputs.get(0), inputs.get(1), options.containsKey("S")); // outputformat + inputfile + S=single File(y/n)
-            case 4 -> properties = new GeneralProperties(inputs.get(0), inputs.get(1), options.containsKey("S"),  // outputformat + inputfile + single File + num of Fields
-                    Integer.parseInt(inputs.get(2)));
+            case 1 -> properties = new GeneralProperties("ics", inputs.get(0)); // nur inputfile
+            case 2 -> properties = new GeneralProperties(inputs.get(0), inputs.get(1));    //TODO: inputfile + outputfile
             default -> {
                 System.out.println(Messages.CMD_NOT_ENOUGH_ARGS);
                 properties = new GeneralProperties("ics");
             }
         }
 
-        if (options.containsKey("n")) {
+        if (options.containsKey("n"))   // Number of fields
+        {
             properties.setNumberOfFields(Integer.parseInt(options.get("n")));
         }
 
-        if (options.containsKey("t")) {
-            properties.setSeperator(options.get("t"));
+        if (options.containsKey("t")) // Separator
+        {
+            properties.setSeparator(options.get("t"));
         }
 
-        if (options.containsKey("i")) {
+        if (options.containsKey("i")) // input Type
+        {
             properties.setInputType(options.get("i"));
         }
 
@@ -112,12 +111,11 @@ public class CalendarExport {
     private static List<Calendar> readFileToCalendar() throws IOException {
         List<Calendar> entries = new ArrayList<>();
         String line;
-        //try(BufferedReader br = new BufferedReader(new FileReader(properties.getInputFile()))) {
         try(BufferedReader br = new BufferedReader(
                 new InputStreamReader(
                         new FileInputStream(properties.getInputFile()), StandardCharsets.UTF_8))) {
             while ((line = br.readLine()) != null) {    //TODO mit stream ersetzen (lines())
-                String[] values = line.split(properties.getSeperator());
+                String[] values = line.split(properties.getSeparator());
                 try {
                     String startDate = ensureNotEmpty(values[0]);
                     String startTime = ensureNotEmpty(values[1]);
@@ -130,8 +128,12 @@ public class CalendarExport {
                             summary);
                     System.out.println(String.format(Messages.READ_ROW, values.length));
                     switch (values.length) {
+                        case 10:
+                            calendar.setRule(values[9]);
+                        case 9:
+                            calendar.setCategory(values[8]);
                         case 8:
-                            calendar.setRule(values[7]);
+                            calendar.setReminder(values[7]);
                         case 7:
                             calendar.setLocation(values[6]);
                         case 6:

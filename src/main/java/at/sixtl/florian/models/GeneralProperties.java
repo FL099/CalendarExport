@@ -10,7 +10,7 @@ public class GeneralProperties {
     private File inputFile;
     private boolean singleFile = false;
     private int numberOfFields = 13;
-    private String seperator = ";";
+    private String separator = ";";
     private String dTFormat = "DD.MM.YYYY";
     private String organizer = "someone@example.com";
     private String organization = "exampleOrg";
@@ -137,12 +137,12 @@ public class GeneralProperties {
         this.numberOfFields = numberOfFields;
     }
 
-    public String getSeperator() {
-        return seperator;
+    public String getSeparator() {
+        return separator;
     }
 
-    public void setSeperator(String seperator) {
-        this.seperator = seperator;
+    public void setSeparator(String seperator) {
+        this.separator = seperator;
     }
 
     public String getDTFormat() {
